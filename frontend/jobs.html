@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Matched Jobs</title>
+</head>
+<body>
+
+<h1>Recommended Jobs</h1>
+
+<button onclick="loadJobs()">
+    Show Matches
+</button>
+
+<div id="jobs"></div>
+
+<script>
+
+async function loadJobs() {
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/jobs/match"
+    );
+
+    const jobs = await response.json();
+
+    let html = "";
+
+    jobs.forEach(job => {
+
+        html += `
+            <div
+                style="
+                border:1px solid #ccc;
+                padding:10px;
+                margin:10px;
+                "
+            >
+                <h3>${job.title}</h3>
+
+                <p>${job.company}</p>
+
+                <p>
+                Match Score:
+                ${job.match_score}
+                </p>
+            </div>
+        `;
+
+    });
+
+    document.getElementById("jobs")
+        .innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>
